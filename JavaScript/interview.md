@@ -1,0 +1,125 @@
+# 将数组扁平化并去除其中重复数据，最终得到一个升序且不重复的数组
+
+```
+var arr = [ [1, 2, 2], [3, 4, 5, 5], [6, 7, 8, 9, [11, 12, [12, 13, [14] ] ] ], 10];
+```
+
+想想这个题目要干什么。
+1、扁平化
+2、去重
+3、排序
+
+首先不去搞那些奇技淫巧，中规中矩的能体现js基础的。先实现数组的扁平化。
+
+```
+function flatten (arr) {
+  if(!isArray(arr)) return
+  var res = [], len = arr.length
+  for (var i = 0; i < len; i++) {
+    if (isArray(arr[i])) {
+      res = res.concat(flatten(arr[i]))
+    } else {
+      res.push(arr[i])
+    }
+  }
+  return res
+}
+
+// 写一个工具函数辅助一下
+function isArray (obj) {
+  return Object.prototype.toString.call(obj) === '[object Array]'
+}
+```
+这样就实现了数组的扁平化。
+接下来的事情是去重。这里选择比较可靠的对象去重：
+
+```
+function unique (arr) {
+  var len = arr.length, obj = {}, newArr = []
+  for (var i = 0; i < len; i++) {
+    if(!obj[arr[i]]){
+      obj[arr[i]] = true
+      newArr.push(arr[i])
+    }
+  }
+  return newArr
+}
+```
+最后是排序。
+排序有很多选择，直接调用sort方法、冒泡、选择、归并、快排...
+
+这里选择快排，虽然题目中的数组看起来并不适合快排。但是我发现身边的人，让手撸一个快排未必能行。
+
+```
+function quickSort (arr) {
+  if (arr.length <= 1) return arr // 递归的出口
+  var left = [], right = []
+  var mid = arr.splice(Math.floor(arr.length / 2), 1)[0]
+  for (var i = 0; i < arr.length; i++) {
+    if (arr[i] < mid) {
+      left.push(arr[i])
+    } else {
+      right.push(arr[i])
+    }
+  }
+  return [].concat(quickSort(left), [mid], quickSort(right))
+}
+```
+然后就将这几个函数组合起来就是答案了。
+
+```
+console.log(quickSort(unique(flatten(arr))))
+```
+
+
+## 扁平化的一些其他写法
+### ES5 forEach
+
+```
+Array.prototype.flatten = function () {
+  var res = []
+  this.forEach(function (item) { // 为什么是 this
+    Object.prototype.toString.call(item) === '[object Array]' ? res = res.concat(item.flatten) : res.push(item)
+  })
+  return res
+}
+```
+### ES5 reduce
+
+这里顺便提一嘴，reduce 方法
+
+>Array.prototype.reduce(callback, initialValue)
+
+- callback
+  · accumulator   累计器
+  · currentValue  当前值
+  · currentIndex  当前索引
+  · arr           调用 reduce 方法的数组
+
+- initialValue 初始值
+  · 如果初始值不传，则默认使用 arr 的第 0 个元素，currentValue 取第 1 个值
+  · 如果传递初始值，使用初始值，currentValue 取第 0 个元素
+
+```
+function flatten (arr) {
+  return arr.reduce(function (counter, current) {
+    return Object.prototype.toString.call(current) === '[object Array]' ? counter.concat(flatten(current)) : counter.concat(current)
+  }, [])
+}
+```
+
+### ES6
+
+```
+const flatten = arr => arr.reduce((accu, current) => {
+  return Object.prototype.toString.call(current) === '[object Array]' ?
+  accu.concat(flatten(current)) : accu.concat(current)
+}, [])
+```
+
+
+## 数组去重的ES6实现
+
+```
+let arr = [...new Set(arr)]
+```
