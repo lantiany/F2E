@@ -26,9 +26,9 @@
 
 ## 图片
 
-![图片名称](https://github.com/Veycn/F2E/raw/develop/Assets/images/test.png)
+![图片名称](https://github.com/Veycn/F2E/raw/develop/Assets/images/test1.png)
 
-`![图片名称](https://github.com/Veycn/F2E/raw/develop/Assets/images/test.png)`
+`![图片名称](https://github.com/Veycn/F2E/raw/develop/Assets/images/test1.png)`
 
 ## 超链接
 
