@@ -1,0 +1,24 @@
+{
+  "name": "F2E",
+  "version": "1.0.0",
+  "description": "### 16:11     更新数组去重和乱序的方法。",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Veycn/F2E.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Veycn/F2E/issues"
+  },
+  "homepage": "https://github.com/Veycn/F2E#readme",
+  "dependencies": {
+    "folktale": "^2.3.2",
+    "lodash": "^4.17.21"
+  }
+}
