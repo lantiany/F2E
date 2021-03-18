@@ -518,8 +518,102 @@ console.log(parseJSON('{"name": "zs"}').map(obj => obj.name.toUpperCase()))
 
 ### IO函子
 
+- IO 函子中的 value 是一个函数，把函数作为值来处理。
+- 把不纯的动作存储到 value 中，延迟执行这个不存的动作，保证当前的操作是纯的
+- 把不纯的动作交给操作者来处理
 
+```js
+class IO {
+  static of(value){
+    return new IO(function(){
+      return value
+    })
+  }
+  constructor(fun){
+    this._value = fun
+  }
+  map(fun){
+    // this._value 是一个函数
+    // map 传入的 fn 也是一个函数
+    // 先经过 this._value 处理（此处处理就是直接 return）后的返回结果给 fun 再处理
+    // 最终的返回结果是一个 新的 IO
+    return new IO(Compose(fun, this._value))
+  }
+}
 
+const io = IO.of(process).map(process => process.execPath)
+console.log(io); // IO { _value: [Function] }
+console.log(io._value()); // /usr/local/bin/node
+```
+
+尽管 io.value() 的执行结果不是纯的，但是 IO 函子每次返回的都是一个函数，这个是一个纯的操作，没有副作用。这就实现了副作用的可控。
+
+###  IO 函子问题
+
+```js
+const fs = require("fs");
+
+const readFile = function(fileName){
+  return new IO(function(){
+    return fs.readFileSync(fileName, 'utf-8')
+  })
+}
+
+const print = function(file){
+  return new IO(function(){
+    console.log(file._value());
+    return file
+  })
+}
+
+const readAndPrint = Compose(print, readFile);
+
+console.log(readAndPrint('package.json')._value()._value());
+```
+如果每一个纯函数都返回 IO 函子, value 传递的层级越深，IO函子的嵌套越深，即形成`obj._value()._value()`的情况。
+
+### Monad 函子
+
+用于解决IO函子的嵌套问题
+
+```js
+class Monad{
+  static of(value){
+    return new Monad(function(){
+      return value
+    })
+  }
+  constructor(fun){
+    this._value = fun
+  }
+  map(fun){
+    return new Monad(Compose(fun, this._value))
+  }
+  // join 函数 返回函子 value 的执行结果
+  join(){
+    return this._value()
+  }
+  // 区别于 map, flatMap 执行 map 中的 fun 之后获取执行结果返回
+  flatMap(fun){
+    return this.map(fun).join()
+  }
+}
+
+const readFile = function(fileName){
+  return new Monad(function(){
+    return fs.readFileSync(fileName, 'utf-8')
+  })
+}
+
+const print = function(file){
+  return new Monad(function(){
+    console.log(file);
+    return file
+  })
+}
+
+console.log(readFile('package.json').flatMap(print).join());
+```
 
 
 

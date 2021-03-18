@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/Veycn/F2E#readme",
   "dependencies": {
+    "folktale": "^2.3.2",
     "lodash": "^4.17.21"
   }
 }

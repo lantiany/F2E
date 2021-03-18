@@ -94,3 +94,101 @@ function parseJSON(params) {
 
 console.log(parseJSON('{name: zs}').map(obj => obj.name.toUpperCase()));
 console.log(parseJSON('{"name": "zs"}').map(obj => obj.name.toUpperCase()));
+
+// IO 函子
+
+function Curry (fun){
+  return function Curried(...args){
+    if(args.length < fun.length){
+      return function(){
+        return Curried(...args.concat(Array.from(arguments)))
+      }
+    }
+    return fun(...args)
+  }
+}
+
+function Compose(...args){
+  return function(value){
+    return args.reverse().reduce((acc, fun) => {
+      return fun(acc)
+    }, value)
+  }
+}
+class IO {
+  static of(value){
+    return new IO(function(){
+      return value
+    })
+  }
+  constructor(fun){
+    this._value = fun
+  }
+  map(fun){
+    // this._value 是一个函数
+    // map 传入的 fn 也是一个函数
+    // 先经过 this._value 处理（此处处理就是直接 return）后的返回结果给 fun 再处理
+    // 最终的返回结果是一个 新的 IO
+    return new IO(Compose(fun, this._value))
+  }
+}
+
+const io = IO.of(process).map(process => process.execPath)
+
+console.log(io._value()); // /usr/local/bin/node
+const fs = require("fs");
+
+// const readFile = function(fileName){
+//   return new IO(function(){
+//     return fs.readFileSync(fileName, 'utf-8')
+//   })
+// }
+
+// const print = function(file){
+//   return new IO(function(){
+//     console.log(file._value());
+//     return file
+//   })
+// }
+
+// const readAndPrint = Compose(print, readFile);
+
+// console.log(readAndPrint('package.json')._value()._value());
+
+
+class Monad{
+  static of(value){
+    return new Monad(function(){
+      return value
+    })
+  }
+  constructor(fun){
+    this._value = fun
+  }
+  map(fun){
+    return new Monad(Compose(fun, this._value))
+  }
+  // join 函数 返回函子 value 的执行结果
+  join(){
+    return this._value()
+  }
+  // 区别于 map, flatMap 执行 map 中的 fun 之后获取执行结果返回
+  flatMap(fun){
+    return this.map(fun).join()
+  }
+}
+
+const readFile = function(fileName){
+  return new Monad(function(){
+    return fs.readFileSync(fileName, 'utf-8')
+  })
+}
+
+const print = function(file){
+  return new Monad(function(){
+    console.log(file);
+    return file
+  })
+}
+
+console.log(readFile('package.json').flatMap(print).join());
