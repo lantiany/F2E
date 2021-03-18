@@ -111,11 +111,11 @@ pay(10);  // 不执行
 高阶函数的返回值（一个函数）引用了这个函数内部的变量，形成闭包。
 
 ### 闭包的本质
-> 函数在执行前会被放入栈中，执行结束之后从栈中移除，但是存储在堆中的作用域中成员不能被释放，因此，内部函数依然可以访问外部函数的成员变量。
+> 函数在执行前会被放入栈中，执行结束之后从栈中移除，但是存储在堆中的作用域中成员因为被其他地方引用而不能被释放，因此，内部函数依然可以访问外部函数的成员变量。
 
 
 ## 纯函数
-对于纯函数来说，就以为这 f(x) = y, 函数对于确定的输入有确定的输出，没有可观察的副作用。
+对于纯函数来说，就意味着 f(x) = y, 函数对于确定的输入有确定的输出，没有可观察的副作用。
 
 ```js
 // splice 即非纯函数
@@ -172,11 +172,11 @@ console.log(myArea(3));
 ## 副作用
 如果一个函数依赖外部变量，随着外部变量改变就不能保证相同的输入返回相同的输出，这个函数就是非纯函数，即有**副作用**。
 
-副作用的来源主要是数据库、配置文件、用户输入等，它会使函数的通用型、复用性、扩展性下降。但是副作用是不可以完全禁止的，应控制齐在一个可控范围内。
+副作用的来源主要是数据库、配置文件、用户输入等，它会使函数的通用型、复用性、扩展性下降。但是副作用是不可以完全禁止的，应控制其在一个可控范围内。
 
 ## 柯里化
 
-当一个函数有多个参数的时候，先传递一部分参数，以后这部分参数不变，返回一个函数，这个函数接收剩余部分参数，这样可以一直迭代下去，即科里化。
+当一个函数有多个参数的时候，先传递一部分参数，以后这部分参数不变，返回一个函数，这个函数接收剩余部分参数，这样可以一直迭代下去，即柯里化。
 
 - 拆解函数的参数，每次可以传入任意个数的参数
 - 每次传参后，如果参数个数没有满足要求，返回一个函数，接收剩余参数
@@ -281,7 +281,7 @@ function first(arr){
 const lastChar = compose(first, reverse);
 console.log(lastChar(['a', 'b', 'c']));
 ```
-这样写没什么大问题，就是可读性不好。但是如果有一种方式可以让各个函数之间的组合看起来更优雅，你学还是不学？
+这样写没什么大问题，就是`f(g(value))`这样的洋葱代码可读性不好。但是如果有一种方式可以让各个函数之间的组合看起来更优雅，你学还是不学？
 
 ```js
 res = compose(f, g, h)
@@ -311,9 +311,7 @@ const lastChar = _.flowRight(toUpper, first, reverse)
 
 // console.log(lastChar(['a', 'b', 'c'])); 
 
-// 函数接收多个参数，每个参数都是纯函数
-// 先执行函数的返回结果作为后执行函数的参数
-//
+
 /**
  * @description 函数接收多个参数，每个参数都是纯函数
  *    先执行函数的返回结果作为后执行函数的参数
@@ -338,6 +336,8 @@ const ComposeES6 = (...args) => value => args.reverse().reduce((acc, fun)=> fun(
 
 const test1 = Compose(toUpper, first, reverse)
 const test2 = ComposeES6(toUpper, first, reverse)
+
+// 结合律测试
 const test3 = ComposeES6(Compose(toUpper, first), reverse)
 const test4 = ComposeES6(toUpper, Compose(first, reverse));
 
@@ -368,7 +368,10 @@ console.log(test5(str));
 
 
 /**
- * 上面用到的 split 和 join 都是封装过的，因为在 lodash 的 _ 模块下，这些函* 数都是数据优先的，即数据在前，如果直接使用 split('-')，该函数会将 ‘-’ 当作* 数据处理，会导致意外的错误
+ * 上面用到的 split 和 join 都是封装过的，
+ * 因为在 lodash 的 _ 模块下，这些函* 数都是数据优先的，即数据在前，
+ * 如果直接使用 split('-')，该函数会将 ‘-’ 当作* 数据处理，会导致意外的错误
+ * 
  * 所以要通过封装将参数顺序反转过来
  * 在 lodash 模块中也有数据置后的函数，在 fp 模块中
  */
@@ -382,7 +385,7 @@ console.log(test6(str));
 
 ## point free
 
-[什么是Point Free](https://www.ruanyifeng.com/blog/2017/03/pointfree.html)
+[什么是Point Free ？](https://www.ruanyifeng.com/blog/2017/03/pointfree.html)
 
 **不使用所要处理的值，只合成运算过程**
 
@@ -448,10 +451,11 @@ class MayBe {
     this._value = value
   }
   map(fun){
+    // 检查 _value, 如果非空，才执行传入的函数，否则返回相应的空值
     return this.isEmptyValue() ?  MayBe.of(this._value) : MayBe.of(fun(this._value))
   }
   isEmptyValue(){
-    return this._value === null || this._value === undefined
+    return this._value === null || this._value === undefined || this._value === ''
   }
 }
 
@@ -472,7 +476,7 @@ const test2 = MayBe.of(10)
 
 console.log(test2); //  MayBe { _value: undefined }
 ```
-上述代码这样写当然一眼看出问题，如果map 函数稍微复杂一点，不慎返回了意外的 null，得不到期望的值，MayBe 函子也没有办法解决。
+上述代码这样写当然一眼看出问题，如果 map 函数稍微复杂一点，不慎返回了意外的 null，得不到期望的值，MayBe 函子也没有办法解决。
 
 ### Either 函子
 
@@ -519,7 +523,7 @@ console.log(parseJSON('{"name": "zs"}').map(obj => obj.name.toUpperCase()))
 ### IO函子
 
 - IO 函子中的 value 是一个函数，把函数作为值来处理。
-- 把不纯的动作存储到 value 中，延迟执行这个不存的动作，保证当前的操作是纯的
+- 把不纯的动作存储到 value 中，延迟执行这个不纯的动作，保证当前的操作是纯的
 - 把不纯的动作交给操作者来处理
 
 ```js
@@ -546,7 +550,7 @@ console.log(io); // IO { _value: [Function] }
 console.log(io._value()); // /usr/local/bin/node
 ```
 
-尽管 io.value() 的执行结果不是纯的，但是 IO 函子每次返回的都是一个函数，这个是一个纯的操作，没有副作用。这就实现了副作用的可控。
+尽管 io.value() 的执行结果不是纯的，但是 IO 函子每次返回的都是一个函数，这个是一个纯的操作，没有副作用。这就实现了副作用的可控。（其实是甩锅，把锅甩给操作者来背，即 map 的入参 fun）
 
 ###  IO 函子问题
 
