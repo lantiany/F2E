@@ -9,5 +9,40 @@
 <body>
   <!-- <script src="./ajax.js"></script> -->
   <script src="./promise.js"></script>
+  <!-- <script src="./myPromise.js"></script> -->
+  <script>
+    let p = new MyPromise((resolve, reject) => {
+      // throw new Error("err")
+      // resolve(1);
+      reject("fail")
+      // setTimeout(() => {
+      //   resolve(1)
+      // }, 2000)
+    })
+    function p1(){
+      return new MyPromise((resolve, reject) => {
+        setTimeout(() => {
+          resolve(1)
+        }, 3000)
+      })
+    }
+    function p2(){
+      return new MyPromise((resolve, reject) => {
+        resolve(2)
+      })
+    }
+    // MyPromise.all(['a', p1(), p2(), 'b']).then(res => {
+    //   console.log(res);
+    // })
+
+    // MyPromise.resolve(10).then(res => console.log(res))
+    p2().finally(() => {
+        console.log('finally');
+        return p1()
+      }).then(val => {
+        console.log(val);
+      })
+  </script>
+  <!-- <script src="./generator.js"></script> -->
 </body>
 </html>
