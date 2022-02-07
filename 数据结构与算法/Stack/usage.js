@@ -6,7 +6,7 @@
 
 
 var isValid = function (s) {
-  var stack = new Array();
+  var stack = [];
   for(var i = 0, len = s.length; i < len; i++){
     if(s[i] === '('){
       stack.push(s[i])
@@ -37,7 +37,7 @@ var isValid1 = function(s){
     '{': '}',
     '[': ']',
   }
-  var stack = new Array();
+  var stack = [];
   for(var i = 0, len = s.length; i < len; i++){
     // 如果是左括号，入栈
     if(Object.keys(map).includes(s[i])){

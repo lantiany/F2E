@@ -3,19 +3,19 @@
 let s = (function(){
   class Stack {
     constructor(){
-      this.stack = new Array();
+      this.stack = [];
     }
-  
+
     // 入栈
     push(val){
       this.stack.push(val)
     }
-  
+
     // 出栈
     pop(){
       this.stack.pop()
     }
-  
+
     // 栈内元素个数
     size(){
       return this.stack.length;
