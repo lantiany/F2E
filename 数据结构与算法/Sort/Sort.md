@@ -13,6 +13,9 @@
 
 ## 冒泡排序
 
+冒泡排序是最基础的原地稳定排序算法，时间复杂度为O(n^2)。
+最好的情况是已经有序的数组，时间复杂度为O(n)。
+
 ```javascript
 function BubbleSort(arr) {
     const len = arr.length;
