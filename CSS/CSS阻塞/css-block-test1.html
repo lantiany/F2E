@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>css阻塞</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+<body>
+<div>
+    hello
+</div>
+<script>
+    console.log('start')
+    console.time('start')
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('DOMContentLoaded');
+        console.timeEnd('start')
+    })
+</script>
+</body>
+</html>
