@@ -14,7 +14,7 @@ CSS 加载不会阻塞 DOM 解析，但是会阻塞 DOM 渲染。
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
       h1 {
-        color: red !important
+        color: red !important;
       }
     </style>
     <script>
