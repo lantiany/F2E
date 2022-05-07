@@ -132,3 +132,39 @@ type ExcludeA = Exclude<'a' | 'b', 'a'>
 type ExtractA = Extract<'a' | 'b', 'a'>
 ```
 
+
+
+# 类型断言
+
+## as & <>
+
+
+```typescript
+// 尖括号 语法
+let someValue: any = "this is a string";
+let strLength: number = (<string>someValue).length;
+
+// as 语法
+let someValue1: any = "this is a string";
+let strLength1: number = (someValue as string).length;
+```
+
+## 非空断言
+
+断言操作对象不是 null 或 undefined。
+
+```typescript
+let a: string | null | undefined;
+
+a!.toString();
+```
+
+## 确定赋值断言
+
+断言变量已被明确赋值。
+
+```typescript
+let a!: number;
+
+console.log(a * 2); // 不会报错
+```
