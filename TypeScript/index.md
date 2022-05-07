@@ -3,7 +3,7 @@
 
 ## unknown
 
-    unknown 类型是 JavaScript 中未知类型的定义。
+unknown 类型是 JavaScript 中未知类型的定义。
 
 unknown 主要用于在很多场景下代替 any，但是保留静态类型检查。
 
@@ -20,7 +20,7 @@ function test(input: unknown){
 
 any 表示所有类型，void 表示没有类型，即没有任何类型。
 
-undefined 表示没有值，是 void 的一个子集，null 表示空值。
+undefined 表示没有值，是 void 的一个子集。
 
 一般用来描述函数的返回值，当我们不关心函数的返回值的时候，我们可以这样定义函数:
 
