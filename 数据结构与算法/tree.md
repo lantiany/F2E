@@ -65,6 +65,7 @@ var maxDepth = function (root) {
 思路同二叉树的深度。
 
 循环
+
 ```typescript
 var maxDepth = function (root) {
   if (root == null) return 0;
@@ -83,16 +84,113 @@ var maxDepth = function (root) {
 ```
 
 递归
+
 ```typescript
 var maxDepth = function (root) {
   if (root == null) return 0;
   let depth = 0, children = root.children;
-  
-  for(let child of children){
+
+  for (let child of children) {
     let childDepth = maxDepth(child);
     depth = Math.max(depth, childDepth);
   }
   return depth + 1;
-}
+};
 ```
 
+### 102. 二叉树的层序遍历
+
+[二叉树的层序遍历](https://leetcode.cn/problems/binary-tree-level-order-traversal/)
+
+```typescript
+var levelOrder = function (root) {
+  if (root == null) return [];
+  const result = [], queue = [root];
+  while (queue.length > 0) {
+    const size = queue.length, level = [];
+    for (let i = 0; i < size; i++) {
+      let node = queue.shift();
+      node.left && queue.push(node.left);
+      node.right && queue.push(node.right);
+      level.push(node.val);
+    }
+    result.push(level);
+  }
+  return result
+};
+```
+
+### 637. 二叉树的层平均值
+
+[二叉树的层平均值](https://leetcode.cn/problems/average-of-levels-in-binary-tree/)
+
+```typescript
+var averageOfLevels = function (root) {
+  if (root == null) return 0;
+  const result = [], queue = [root];
+  while (queue.length > 0) {
+    let size = queue.length, sum = 0;
+    for (let i = 0; i < size; i++) {
+      const node = queue.shift();
+      node.left && queue.push(node.left);
+      node.right && queue.push(node.right);
+      sum += node.val;
+    }
+    result.push((sum / size).toFixed(5));
+  }
+  return result;
+};
+```
+
+### 515. 在每个树行中找最大值
+
+[在每个树行中找最大值](https://leetcode.cn/problems/find-largest-value-in-each-tree-row/)
+
+```typescript
+var largestValues = function (root) {
+  if (root == null) return [];
+  const result = [], queue = [root];
+
+  while (queue.length > 0) {
+    let max = Number.MIN_SAFE_INTEGER, size = queue.length;
+    for (let i = 0; i < size; i++) {
+      let node = queue.shift();
+      if (node.val > max) {
+        max = node.val;
+      }
+      node.left && queue.push(node.left);
+      node.right && queue.push(node.right);
+    }
+    result.push(max);
+  }
+  return result;
+};
+```
+
+### 简单总结
+
+这几个题下来，就有点套路的意思了。层序遍历基本都是这个框架：
+
+```typescript
+
+var traverse = function (root) {
+  if (root == null) return;
+  const queue = [root], result = [];
+  
+  while (queue.length > 0){
+    const size = queue.length;
+    for(let i = 0; i < size; i++){
+      const node = queue.shift();
+      // 如果是 N叉树 就操作 node.children
+      queue.push(...node.children);
+      // 二叉树就操作左右子节点
+      node.left && queue.push(node.left);
+      node.right && queue.push(node.right);
+      
+      // do something
+    }
+  }
+  return result
+}
+
+```
