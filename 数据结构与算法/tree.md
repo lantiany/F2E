@@ -9,7 +9,7 @@
 
 ```typescript
 //
-//     3
+//    3
 //   / \
 //  9  20
 //    /  \
@@ -38,4 +38,25 @@ var maxDepth = function(root) {
     }
     return depth;
 };
+```
+
+写完了循环，再尝试尝试递归。
+
+递归三要素：
+
+1、函数主功能。
+2、参数、返回值。
+3、递归结束条件。
+
+思路：二叉树的基本结构（或者说是最小单位）是：根结点，左右子节点（可能没有）。对于每一个节点，看是否存在子节点，存在子节点则深度+1，计算每个单元的深度，取更大的那个值，一直做下去，直到到达每一个分叉的终点，就得到最大的深度。
+
+ps: 可以这样理解，但是执行过程并不是这样的。
+
+```typescript
+var maxDepth = function(root) {
+  if (root == null) return 0;
+  let l = maxDepth(root.left);
+  let r = maxDepth(root.right);
+  return Math.max(l, r) + 1;
+}
 ```
