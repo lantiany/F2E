@@ -63,7 +63,7 @@ var removeDuplicates = function (nums) {
 
 思路与上题一致，只是操作的内容从数组变成了链表，从数组索引变成了链表指针。（详见注释）
 
-![](https://lantiany-1254329693.cos.ap-chongqing.myqcloud.com/blog/20220609150724.png)
+![](https://lantiany-1254329693.cos.ap-chongqing.myqcloud.com/blog/2.gif)
 
 ```typescript
 var deleteDuplicates = function (head) {
