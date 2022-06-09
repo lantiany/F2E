@@ -89,17 +89,32 @@ var deleteDuplicates = function (head) {
 
 ### 27、移除元素
 
+第一种思路是双指针两边向中间走，左指针遇到目标值就将右指针的值赋值给左指针。
+题目不要求返回数据的顺序，所以只要左右指针相遇的时候，目标值已经被覆盖完了。
 ```typescript
 var removeElement = function (nums, val) {
   let left = 0, right = nums.length
   while (left < right) {
     if (nums[left] === val) {
       nums[left] = nums[--right]
-
     } else {
       left++
     }
   }
   return left
 };
+```
+
+第二个思路是快慢指针，当快指针不是目标值的时候，将快指针赋值给慢指针（要保留下来的值）
+```typescript
+var removeElement = function (nums, val) {
+  let slow = 0, fast = 0;
+  while (fast < nums.length){
+    if (nums[fast] !== val){
+      nums[slow++] = nums[fast];
+    }
+    fast++;
+  }
+  return slow;
+}
 ```
