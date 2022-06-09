@@ -140,3 +140,40 @@ var twoSum = function (numbers, target) {
   return [-1, -1]
 };
 ```
+
+### 5、最长回文子串
+
+`acbaabc` 和 `acbabc` 这两种情况的处理。用一个扩散函数来确定在当前位置，分别假设奇数中心和偶数中心，可以构成回文串。
+
+得到两个长度之后，取大的那个，计算开始位置：`start = i - Math.floor((max - 1) / 2);` max 需要 - 1 是因为
+当前位置 i 占据了一个字符。
+
+```typescript
+var longestPalindrome = function (s) {
+  let max = 0, start = 0
+  for (let i = 0; i < s.length; i++){
+    let oddLen = isPalindrome(s, i, i);
+    let evenLen = isPalindrome(s, i, i + 1);
+    
+    let curMax = Math.max(oddLen, evenLen);
+    
+    if (curMax > max){
+      max = curMax
+      start = i - Math.floor((max - 1) / 2);
+    }
+  }
+  return s.substring(start, start + max)
+}
+
+// 扩散函数
+function isPalindrome(s, i, j) {
+  while (i >= 0 && j <= s.length - 1) {
+    if (s[i] !== s[j]) {
+      break;
+    }
+    i--;
+    j++
+  }
+  return j - i - 1;
+}
+```
