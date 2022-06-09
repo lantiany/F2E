@@ -44,6 +44,7 @@ var spiralOrder = function (matrix) {
 
 双指针
 
+![](https://lantiany-1254329693.cos.ap-chongqing.myqcloud.com/blog/1.gif)
 ```typescript
 var removeDuplicates = function (nums) {
   let j = 0;
@@ -54,4 +55,31 @@ var removeDuplicates = function (nums) {
   }
   return j + 1;
 }
+```
+
+### 83、删除排序链表中的重复元素
+
+[删除排序链表中的重复元素](https://leetcode.cn/problems/remove-duplicates-from-sorted-list/submissions/)
+
+思路与上题一致，只是操作的内容从数组变成了链表，从数组索引变成了链表指针。（详见注释）
+
+```typescript
+var deleteDuplicates = function (head) {
+    if (head == null) return null;
+    let slow = head, fast = head.next;
+    // for(let i = 1; i < nums.length; )
+    while (fast != null) {
+        // if (nums[i] !== nums[j])
+        if (slow.val !== fast.val){
+            // nums[++j] = nums[i]
+            slow.next = fast
+            slow = slow.next;
+        }
+        // i++
+        fast = fast.next;
+    }
+    // 断开与后面元素的连接
+    slow.next = null;
+    return head;
+};
 ```
