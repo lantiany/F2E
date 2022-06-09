@@ -107,3 +107,57 @@ var minEatingSpeed = function (piles, h) {
 
 console.log(minEatingSpeed([30, 11, 23, 4, 20], 6))
 ```
+
+
+### 1011、在 D 天内送达包裹的能力
+
+[在 D 天内送达包裹的能力](https://leetcode.cn/problems/capacity-to-ship-packages-within-d-days/)
+
+```typescript
+var shipWithinDays = function (weights, days) {
+  // 1、确定二分的上下界
+  // - 下界应该是货物列表的最大值（至少应该能装走一个）
+  // - 上界应该是货物列表的总和 sum(weights) 一次全部装走
+  let left = 0, right = 0;
+  for (let i = 0; i < weights.length; i++) {
+    if (weights[i] > left) {
+      left = weights[i];
+    }
+    right += weights[i];
+  }
+
+  // [2，3，4，5，6]中可能 345 都能满足在 days 天运载完毕，但是毕竟运载能力越小肯定越便宜嘛
+  // 题目要求最小运载能力，所以找的应该是左边界
+  while (left < right) {
+    let mid = Math.floor(left + (right - left) / 2);
+    let d = f(weights, mid);
+    if (d > days) {
+      // 超过时间了，运力不够
+      left = mid + 1;
+    } else if (d < days) {
+      // 提前了，运力过剩
+      right = mid;
+    } else if (d === days) {
+      // 找到了合适的值，但是不一定是最小的，所以向左侧收拢边界
+      right = mid;
+    }
+  }
+  return left
+};
+
+function f(weights, x) {
+  let days = 0;
+  for (let i = 0; i < weights.length;) {
+    let cap = x;
+    while (i < weights.length) {
+      if (weights[i] > cap) {
+        break;
+      }
+      cap -= weights[i];
+      i++;
+    }
+    days++;
+  }
+  return days;
+}
+```
