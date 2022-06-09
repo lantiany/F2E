@@ -45,6 +45,7 @@ var spiralOrder = function (matrix) {
 双指针
 
 ![](https://lantiany-1254329693.cos.ap-chongqing.myqcloud.com/blog/1.gif)
+
 ```typescript
 var removeDuplicates = function (nums) {
   let j = 0;
@@ -67,21 +68,38 @@ var removeDuplicates = function (nums) {
 
 ```typescript
 var deleteDuplicates = function (head) {
-    if (head == null) return null;
-    let slow = head, fast = head.next;
-    // for(let i = 1; i < nums.length; )
-    while (fast != null) {
-        // if (nums[i] !== nums[j])
-        if (slow.val !== fast.val){
-            // nums[++j] = nums[i]
-            slow.next = fast
-            slow = slow.next;
-        }
-        // i++
-        fast = fast.next;
+  if (head == null) return null;
+  let slow = head, fast = head.next;
+  // for(let i = 1; i < nums.length; )
+  while (fast != null) {
+    // if (nums[i] !== nums[j])
+    if (slow.val !== fast.val) {
+      // nums[++j] = nums[i]
+      slow.next = fast
+      slow = slow.next;
     }
-    // 断开与后面元素的连接
-    slow.next = null;
-    return head;
+    // i++
+    fast = fast.next;
+  }
+  // 断开与后面元素的连接
+  slow.next = null;
+  return head;
+};
+```
+
+### 27、移除元素
+
+```typescript
+var removeElement = function (nums, val) {
+  let left = 0, right = nums.length
+  while (left < right) {
+    if (nums[left] === val) {
+      nums[left] = nums[--right]
+
+    } else {
+      left++
+    }
+  }
+  return left
 };
 ```
