@@ -105,7 +105,7 @@ var removeElement = function (nums, val) {
 };
 ```
 
-第二个思路是快慢指针，当快指针不是目标值的时候，将快指针赋值给慢指针（要保留下来的值）
+第二个思路是快慢指针，当快指针不是目标值的时候，将快指针（的值）赋值给慢指针（要保留下来的值）
 
 ```typescript
 var removeElement = function (nums, val) {
@@ -122,7 +122,7 @@ var removeElement = function (nums, val) {
 
 ### 167、两数之和 2 - 输入有序数组
 
-双指针从两边往中间走，通过与目标值比较，调整左右指针大小，知道找到答案。
+双指针从两边往中间走，通过与目标值比较，调整左右指针大小，直到找到答案。
 
 ```typescript
 var twoSum = function (numbers, target) {
@@ -145,20 +145,19 @@ var twoSum = function (numbers, target) {
 
 `acbaabc` 和 `acbabc` 这两种情况的处理。用一个扩散函数来确定在当前位置，分别假设奇数中心和偶数中心，可以构成回文串。
 
-得到两个长度之后，取大的那个，计算开始位置：`start = i - Math.floor((max - 1) / 2);` max 需要 - 1 是因为
-当前位置 i 占据了一个字符。
+得到两个长度之后，取大的那个，计算开始位置：`start = i - Math.floor((max - 1) / 2);` max 需要 - 1 是因为 当前位置 i 占据了一个字符。
 
 ```typescript
 var longestPalindrome = function (s) {
-  let max = 0, start = 0
-  for (let i = 0; i < s.length; i++){
+  let max = 0, start = 0;
+  for (let i = 0; i < s.length; i++) {
     let oddLen = isPalindrome(s, i, i);
     let evenLen = isPalindrome(s, i, i + 1);
-    
+
     let curMax = Math.max(oddLen, evenLen);
-    
-    if (curMax > max){
-      max = curMax
+
+    if (curMax > max) {
+      max = curMax;
       start = i - Math.floor((max - 1) / 2);
     }
   }
@@ -172,7 +171,7 @@ function isPalindrome(s, i, j) {
       break;
     }
     i--;
-    j++
+    j++;
   }
   return j - i - 1;
 }
