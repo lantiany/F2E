@@ -120,27 +120,6 @@ var removeElement = function (nums, val) {
 }
 ```
 
-### 167、两数之和 2 - 输入有序数组
-
-双指针从两边往中间走，通过与目标值比较，调整左右指针大小，直到找到答案。
-
-```typescript
-var twoSum = function (numbers, target) {
-  let left = 0, right = numbers.length - 1;
-  while (left < right) {
-    let sum = numbers[left] + numbers[right];
-    if (sum === target) {
-      return [left + 1, right + 1];
-    } else if (sum < target) {
-      left++;
-    } else if (sum > target) {
-      right--;
-    }
-  }
-  return [-1, -1]
-};
-```
-
 ### 5、最长回文子串
 
 `acbaabc` 和 `acbabc` 这两种情况的处理。用一个扩散函数来确定在当前位置，分别假设奇数中心和偶数中心，可以构成回文串。
@@ -175,4 +154,60 @@ function isPalindrome(s, i, j) {
   }
   return j - i - 1;
 }
+```
+
+### 1、两数之和
+
+[两数之和](https://leetcode.cn/problems/two-sum/submissions/)
+
+两边 for 循环，暴力破解 O(N^2)
+
+```typescript
+var twoSum = function (nums, target) {
+  for (let i = 0; i < nums.length; i++) {
+    let need = target - nums[i];
+    for (let j = 0; j < nums.length; j++) {
+      // 要注意 i !== j 的情况才是正确解。数字不能重复
+      if (nums[j] === need && i !== j) {
+        return [i, j]
+      }
+    }
+  }
+}
+```
+
+使用map缓存数据，O(N)复杂度
+
+```typescript
+var twoSum = function (nums, target) {
+  let map = new Map();
+  for (let i = 0; i < nums.length; i++) {
+    let need = target - nums[i];
+    if (map.has(need)) {
+      return [map.get(need), i]
+    }
+    map.set(nums[i], i)
+  }
+}
+```
+
+### 167、两数之和 2 - 输入有序数组
+
+双指针从两边往中间走，通过与目标值比较，调整左右指针大小，直到找到答案。
+
+```typescript
+var twoSum = function (numbers, target) {
+  let left = 0, right = numbers.length - 1;
+  while (left < right) {
+    let sum = numbers[left] + numbers[right];
+    if (sum === target) {
+      return [left + 1, right + 1];
+    } else if (sum < target) {
+      left++;
+    } else if (sum > target) {
+      right--;
+    }
+  }
+  return [-1, -1]
+};
 ```
