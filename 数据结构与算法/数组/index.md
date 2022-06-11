@@ -191,6 +191,63 @@ var twoSum = function (nums, target) {
 }
 ```
 
+#### 拓展1: 如果给出的 nums 有序，需要返回多组和为 target 的两个数？
+
+```typescript
+var twoSumTarget = function (nums, target) {
+  nums = nums.sort((a, b) => a - b);
+  let lo = 0, hi = nums.length - 1;
+  const result = [];
+  while (lo < hi) {
+    let left = nums[lo], right = nums[hi];
+    let sum = left + right;
+    if (sum > target) {
+      while (lo < hi && nums[hi] === right) hi--;
+    } else if (sum < target){
+      while (lo < hi && nums[lo] === left) lo++;
+    } else if (sum === target){
+      result.push([left, right]);
+      while (lo < hi && nums[hi] === right) hi--;
+      while (lo < hi && nums[lo] === left) lo++;
+    }
+  }
+  return result;
+}
+```
+
+```typescript
+// Test Code
+
+let arr = [1,2,3,4,4,5,6,7];
+console.log(twoSumTarget(arr, 8));
+
+// [[1,7],[2,6],[3,5],[4,4]]
+```
+
+### 三数之和
+
+```typescript
+var twoSumTarget = function (nums, target) {
+  let left = 0, right = nums.length - 1;
+  const result = [];
+  while (left < right) {
+    let sum = nums[left] + nums[right];
+    if (sum < target) {
+      left++;
+    } else if (sum > target) {
+      right--;
+    } else if (sum === target) {
+      result.push([nums[left], nums[right]])
+    }
+  }
+  return result;
+}
+
+var threeSum = function (nums, target) {
+
+}
+```
+
 ### 167、两数之和 2 - 输入有序数组
 
 双指针从两边往中间走，通过与目标值比较，调整左右指针大小，直到找到答案。
@@ -211,3 +268,5 @@ var twoSum = function (numbers, target) {
   return [-1, -1]
 };
 ```
+
+
