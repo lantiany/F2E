@@ -1,15 +1,6 @@
-## HTML
 
-### 打包 HTML 要解决一下几个基本问题
 
-- 个性化内容填充（例如页面标题，描述，关键词）
-- 多余空格删除（连续多个空白字符的合并）
-- 代码压缩（多余空白字符的合并）
-- 去除注释
-
-### 入口文件处理
-
-#### 单页应用的 HTML
+### 单页应用的 HTML
 
 单页应用的处理很简单，使用 `html-webpack-plugin` 做好相关配置即可。
 详细内容参见：[https://github.com/jantimon/html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin)
@@ -176,4 +167,3 @@ runtime 就是用来管理除了主 chunk 之外的其他模块之间的映射�
 - 当修改主chunk的时候，runtime 和其他包的 hash 却不会变。
 
 总结来说就是优化浏览器缓存，更改的模块，改变了 hash，尽管 runtime 会重新加载，但是没有被修改过的模块还是使用浏览器缓存。
-

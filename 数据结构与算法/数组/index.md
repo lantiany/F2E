@@ -203,9 +203,9 @@ var twoSumTarget = function (nums, target) {
     let sum = left + right;
     if (sum > target) {
       while (lo < hi && nums[hi] === right) hi--;
-    } else if (sum < target){
+    } else if (sum < target) {
       while (lo < hi && nums[lo] === left) lo++;
-    } else if (sum === target){
+    } else if (sum === target) {
       result.push([left, right]);
       while (lo < hi && nums[hi] === right) hi--;
       while (lo < hi && nums[lo] === left) lo++;
@@ -218,31 +218,66 @@ var twoSumTarget = function (nums, target) {
 ```typescript
 // Test Code
 
-let arr = [1,2,3,4,4,5,6,7];
+let arr = [1, 2, 3, 4, 4, 5, 6, 7];
 console.log(twoSumTarget(arr, 8));
 
 // [[1,7],[2,6],[3,5],[4,4]]
 ```
 
-### 三数之和
+#### 拓展2: 在两数之和的基础上，解决三数之和问题
 
 ```typescript
-var twoSumTarget = function (nums, target) {
-  let left = 0, right = nums.length - 1;
+var twoSumTarget = function (nums, start = 0, target) {
+  nums = nums.sort((a, b) => a - b);
+  let lo = start, hi = nums.length - 1;
   const result = [];
-  while (left < right) {
-    let sum = nums[left] + nums[right];
-    if (sum < target) {
-      left++;
-    } else if (sum > target) {
-      right--;
+  while (lo < hi) {
+    let left = nums[lo], right = nums[hi];
+    let sum = left + right;
+    if (sum > target) {
+      while (lo < hi && nums[hi] === right) hi--;
+    } else if (sum < target) {
+      while (lo < hi && nums[lo] === left) lo++;
     } else if (sum === target) {
-      result.push([nums[left], nums[right]])
+      result.push([left, right]);
+      while (lo < hi && nums[hi] === right) hi--;
+      while (lo < hi && nums[lo] === left) lo++;
     }
   }
   return result;
 }
 
+var threeSum = function (nums, target) {
+  nums = nums.sort((a, b) => a - b);
+  const size = nums.length, result = [];
+  for (let i = 0; i < size; i++) {
+    let tuples = twoSumTarget(nums, i + 1, target - nums[i]);
+
+    for (let j = 0; j < tuples.length; j++){
+      tuples[j].push(nums[i]);
+    }
+    result.push(...tuples);
+    while (i < size - 1 && nums[i] === nums[i + 1]) i++;
+  }
+  return result;
+}
+
+let a = [0,0,1,1,2,2,3,3,3,4,4,5]
+console.log(threeSum(a, 6));
+/**
+ * [
+ *  [1, 5, 0],
+ *  [2, 4, 0],
+ *  [3, 3, 0],
+ *  [1, 4, 1],
+ *  [2, 3, 1]
+ * ]
+ */
+```
+
+### 三数之和
+
+```typescript
 var threeSum = function (nums, target) {
 
 }
