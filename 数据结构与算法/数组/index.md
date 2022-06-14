@@ -308,7 +308,7 @@ function nSumTarget(nums, n, target, start) {
         sub.push(nums[i]);
         result.push(sub);
       }
-      
+
       while (i < size && nums[i] === nums[i + 1]) i++;
     }
   }
@@ -341,6 +341,25 @@ var twoSum = function (numbers, target) {
   }
   return [-1, -1]
 };
+```
+
+### 先升后降数组找最大值
+
+```typescript
+var findMax = function (nums) {
+  let left = 0, right = nums.length - 1;
+  while (left < right) {
+    let mid = Math.floor((left + (right - left) / 2));
+    if (nums[mid] > nums[mid - 1] && nums[mid] > nums[mid + 1]) {
+      return nums[mid]
+    } else if (nums[mid] > nums[mid + 1]) {
+      right = mid - 1;
+    } else if (nums[mid] > nums[mid - 1]) {
+      left = mid + 1;
+    }
+  }
+  return -1;
+}
 ```
 
 
