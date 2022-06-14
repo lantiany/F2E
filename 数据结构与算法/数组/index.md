@@ -227,7 +227,7 @@ console.log(twoSumTarget(arr, 8));
 #### 拓展2: 在两数之和的基础上，解决三数之和问题
 
 ```typescript
-var twoSumTarget = function (nums, start = 0, target) {
+var twoSumTarget = function (nums, target, start = 0) {
   nums = nums.sort((a, b) => a - b);
   let lo = start, hi = nums.length - 1;
   const result = [];
@@ -253,7 +253,7 @@ var threeSum = function (nums, target) {
   for (let i = 0; i < size; i++) {
     let tuples = twoSumTarget(nums, i + 1, target - nums[i]);
 
-    for (let j = 0; j < tuples.length; j++){
+    for (let j = 0; j < tuples.length; j++) {
       tuples[j].push(nums[i]);
     }
     result.push(...tuples);
@@ -262,7 +262,7 @@ var threeSum = function (nums, target) {
   return result;
 }
 
-let a = [0,0,1,1,2,2,3,3,3,4,4,5]
+let a = [0, 0, 1, 1, 2, 2, 3, 3, 3, 4, 4, 5]
 console.log(threeSum(a, 6));
 /**
  * [
@@ -275,12 +275,51 @@ console.log(threeSum(a, 6));
  */
 ```
 
+#### 拓展3: 解决 4Sum 问题，甚至 nSum 问题？
+
+```typescript
+function nSumTarget(nums, n, target, start) {
+  const size = nums.length, result = [];
+  nums = nums.sort((a, b) => a - b);
+
+  if (size < 2 || size < n) {
+    return result;
+  }
+
+  if (n === 2) {
+    let lo = start, hi = size - 1;
+    while (lo < hi) {
+      let left = nums[lo], right = nums[hi];
+      let sum = left + right;
+      if (sum > target) {
+        while (lo < hi && nums[hi] === right) hi--;
+      } else if (sum < target) {
+        while (lo < hi && nums[lo] === left) lo++;
+      } else {
+        result.push([left, right])
+        while (lo < hi && nums[hi] === right) hi--;
+        while (lo < hi && nums[lo] === left) lo++;
+      }
+    }
+  } else {
+    for (let i = start; i < size; i++) {
+      let subResult = nSumTarget(nums, n - 1, target - nums[i], i + 1);
+      for (let sub of subResult) {
+        sub.push(nums[i]);
+        result.push(sub);
+      }
+      
+      while (i < size && nums[i] === nums[i + 1]) i++;
+    }
+  }
+  return result;
+}
+```
+
 ### 三数之和
 
 ```typescript
-var threeSum = function (nums, target) {
-
-}
+// 见上
 ```
 
 ### 167、两数之和 2 - 输入有序数组
