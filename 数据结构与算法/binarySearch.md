@@ -99,8 +99,10 @@ var minEatingSpeed = function (piles, h) {
   function calcSum(piles, speed) {
     let sum = 0;
     for (let pile of piles) {
+      // 看以当前速度，每一堆吃完需要多久，时间向上取整
       sum += Math.ceil(pile / speed);
     }
+    // 全部吃完需要的时间
     return sum;
   }
 };
@@ -138,7 +140,7 @@ var shipWithinDays = function (weights, days) {
       // 提前了，运力过剩
       right = mid;
     } else if (d === days) {
-      // 找到了合适的值，但是不一定是最小的，所以向左侧收拢边界
+      // 找到了一个合适的值，但是不一定是最小的，所以向左侧收拢边界
       right = mid;
     }
   }
