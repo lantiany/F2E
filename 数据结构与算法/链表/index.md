@@ -2,6 +2,8 @@
 
 [反转链表](https://leetcode.cn/problems/reverse-linked-list/)
 
+
+迭代解法思路：
 ```text
 next
 prev   curr   
@@ -34,5 +36,21 @@ var reverseList = function (head) {
     curr = next;
   }
   return prev;
+}
+```
+
+
+递归解法：
+
+```typescript
+var reverseList = function (head) {
+  if (head == null || head.next == null) return head;
+  
+  let last = reverseList(head.next);
+  
+  head.next.next = head
+  head.next = null;
+  
+  return last;
 }
 ```
