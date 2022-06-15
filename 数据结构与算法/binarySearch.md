@@ -163,3 +163,24 @@ function f(weights, x) {
   return days;
 }
 ```
+
+### 35、 搜索插入位置
+
+二分查找框架直接求解
+```typescript
+var searchInsert = function(nums, target) {
+    let left = 0, right = nums.length - 1;
+    while(left <= right) {
+        let mid = Math.floor(left + (right - left) / 2);
+
+        if (nums[mid ] === target){
+            return mid;
+        } else if (nums[mid] < target){
+            left = mid + 1;
+        } else if (nums[mid] > target){
+            right = mid - 1;
+        }
+    }
+    return left;
+};
+```
