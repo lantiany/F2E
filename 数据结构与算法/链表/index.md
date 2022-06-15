@@ -1,4 +1,4 @@
-### 206、https://leetcode.cn/problems/reverse-linked-list/
+### 206、反转链表
 
 [反转链表](https://leetcode.cn/problems/reverse-linked-list/)
 
@@ -20,9 +20,9 @@ null  <-   1  ->  2  ->  3  ->  4  ->  5
          curr = next;       指针后移
          
          ......
-                                            next
-                                   prev     curr
-         1      2      3      4      5      null
+                                             next
+                                    prev     curr
+null  <-  1  <-  2  <-  3  <-  4  <-  5      null
 ```
 
 ```typescript
