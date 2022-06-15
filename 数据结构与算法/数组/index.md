@@ -384,3 +384,37 @@ var findMin = function(nums) {
 };
 ```
 
+### 33、搜索旋转排序数组
+
+```typescript
+var search = function(nums, target) {
+    let left = 0, right = nums.length - 1;
+    // 用 mid 将 数组分割之后，数组有一个很重要的特点：至少一边一定是连续递增的
+    // 
+    while(left <= right) {
+        let mid = Math.floor(left + (right - left) / 2);
+        if (nums[mid] === target) {
+            return mid;
+        } else if(nums[left] <= nums[mid]){
+            // 左边连续递增
+            if(nums[left] <= target && target < nums[mid]){
+                // target 在左边区间
+                right = mid - 1;
+            } else {
+                // target 在右边区间
+                left = mid + 1;
+            }
+        } else {
+            // 右边连续递增
+            if (nums[mid] < target && target <= nums[right]){
+                // target 在右边区间
+                left = mid + 1;
+            } else {
+                // target 在左边区间
+                right = mid - 1;
+            }
+        }
+    }
+    return -1;
+};
+```
