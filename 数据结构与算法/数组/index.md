@@ -362,4 +362,25 @@ var findMax = function (nums) {
 }
 ```
 
+### 11、[盛水最多的容器](https://leetcode.cn/problems/container-with-most-water)
+
+
+
+```typescript
+var maxArea = function (nums) {
+  let left = 0, right = nums.length - 1;
+  let max = 0;
+  while (left < right) {
+    if (nums[left] < nums[right]) {
+      max = Math.max(nums[left] * (right - left), max);
+      left++;
+    } else {
+      max = Math.max(nums[right] * (right - left), max);
+      right--;
+    }
+  }
+  return max;
+}
+```
+
 
