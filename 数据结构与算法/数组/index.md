@@ -364,8 +364,6 @@ var findMax = function (nums) {
 
 ### 11、[盛水最多的容器](https://leetcode.cn/problems/container-with-most-water)
 
-
-
 ```typescript
 var maxArea = function (nums) {
   let left = 0, right = nums.length - 1;
@@ -383,59 +381,86 @@ var maxArea = function (nums) {
 }
 ```
 
-
-
-
 ### 153、寻找旋转排序数组中的最小值
 
 ```typescript
-var findMin = function(nums) {
-    let left = 0, right = nums.length - 1;
+var findMin = function (nums) {
+  let left = 0, right = nums.length - 1;
 
-    while(left < right) {
-        let mid = Math.floor(left + (right - left ) / 2);
-        if(nums[mid] < nums[right]){
-            right = mid;
-        } else {
-            left = mid + 1;
-        }
+  while (left < right) {
+    let mid = Math.floor(left + (right - left) / 2);
+    if (nums[mid] < nums[right]) {
+      right = mid;
+    } else {
+      left = mid + 1;
     }
-    
-    return nums[left];
+  }
+
+  return nums[left];
 };
 ```
 
 ### 33、搜索旋转排序数组
 
 ```typescript
-var search = function(nums, target) {
-    let left = 0, right = nums.length - 1;
-    // 用 mid 将 数组分割之后，数组有一个很重要的特点：至少一边一定是连续递增的
-    // 
-    while(left <= right) {
-        let mid = Math.floor(left + (right - left) / 2);
-        if (nums[mid] === target) {
-            return mid;
-        } else if(nums[left] <= nums[mid]){
-            // 左边连续递增
-            if(nums[left] <= target && target < nums[mid]){
-                // target 在左边区间
-                right = mid - 1;
-            } else {
-                // target 在右边区间
-                left = mid + 1;
-            }
-        } else {
-            // 右边连续递增
-            if (nums[mid] < target && target <= nums[right]){
-                // target 在右边区间
-                left = mid + 1;
-            } else {
-                // target 在左边区间
-                right = mid - 1;
-            }
-        }
+var search = function (nums, target) {
+  let left = 0, right = nums.length - 1;
+  // 用 mid 将 数组分割之后，数组有一个很重要的特点：至少一边一定是连续递增的
+  // 
+  while (left <= right) {
+    let mid = Math.floor(left + (right - left) / 2);
+    if (nums[mid] === target) {
+      return mid;
+    } else if (nums[left] <= nums[mid]) {
+      // 左边连续递增
+      if (nums[left] <= target && target < nums[mid]) {
+        // target 在左边区间
+        right = mid - 1;
+      } else {
+        // target 在右边区间
+        left = mid + 1;
+      }
+    } else {
+      // 右边连续递增
+      if (nums[mid] < target && target <= nums[right]) {
+        // target 在右边区间
+        left = mid + 1;
+      } else {
+        // target 在左边区间
+        right = mid - 1;
+      }
     }
-    return -1;
+  }
+  return -1;
 };
+```
+
+### 75、[颜色分类 （Medium）](https://leetcode.cn/problems/sort-colors/)
+
+双指针解法
+
+```typescript
+var sortColors = function (nums) {
+  // 用双指针，第一个指针只想最后一个0，第二个指针指向第一个2，另外用 current 做下标遍历
+  let lastZero = -1, firstTwo = nums.length;
+  let current = 0;
+
+  // 排序完成的条件
+  while (current < firstTwo) {
+    if (nums[current] === 0) {
+      // 当前是 0，要跟 lastZero 做交换
+      lastZero++;
+      [nums[lastZero], nums[current]] = [nums[current], nums[lastZero]];
+      // 假设开局是0，上述交换完成之后，current就不会移动，所以当 0 交换之后，current 应该向右走
+      current++;
+    } else if (nums[current] === 1){
+      // 当前是 1 的时候不用动
+      current++;
+    } else if (nums[current] === 2){
+      // 当前是 2， 要跟 firstTwo 交换
+      firstTwo--;
+      [nums[firstTwo], nums[current]] = [nums[current], nums[firstTwo]];
+    }
+  }
+}
 ```
