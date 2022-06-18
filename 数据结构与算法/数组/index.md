@@ -453,10 +453,10 @@ var sortColors = function (nums) {
       [nums[lastZero], nums[current]] = [nums[current], nums[lastZero]];
       // 假设开局是0，上述交换完成之后，current就不会移动，所以当 0 交换之后，current 应该向右走
       current++;
-    } else if (nums[current] === 1){
+    } else if (nums[current] === 1) {
       // 当前是 1 的时候不用动
       current++;
-    } else if (nums[current] === 2){
+    } else if (nums[current] === 2) {
       // 当前是 2， 要跟 firstTwo 交换
       firstTwo--;
       [nums[firstTwo], nums[current]] = [nums[current], nums[firstTwo]];
