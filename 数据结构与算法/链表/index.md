@@ -80,6 +80,7 @@ var mergeTwoLists = function (list1, list2) {
 ```
 
 骚操作，不太好理解。
+
 ```typescript
 var mergeTwoLists = function (list1, list2) {
   if (list1 == null) return list2;
@@ -95,46 +96,45 @@ var mergeTwoLists = function (list1, list2) {
 };
 ```
 
-
 ### 876、[链表的中间节点](https://leetcode.cn/problems/middle-of-the-linked-list/submissions/)
 
 ```typescript
-var middleNode = function(head) {
-    if (head == null) return null;
-    let p = head, k = head;
+var middleNode = function (head) {
+  if (head == null) return null;
+  let p = head, k = head;
 
-    while (k && k.next){
-        k = k.next.next;
-        p = p.next;
-    }
+  while (k && k.next) {
+    k = k.next.next;
+    p = p.next;
+  }
 
-    return p;
+  return p;
 };
 ```
 
 ### 141、[环形链表](https://leetcode.cn/problems/linked-list-cycle/)
 
 ```typescript
-var hasCycle = function(head) {
-    if (head == null) return false;
+var hasCycle = function (head) {
+  if (head == null) return false;
 
-    let p = head, k = head;
+  let p = head, k = head;
 
-    while (k.next !== null && k.next.next !== null){
-        p = p.next;
-        k = k.next.next;
-        if (p === k) {
-            return true
-        }
+  while (k.next !== null && k.next.next !== null) {
+    p = p.next;
+    k = k.next.next;
+    if (p === k) {
+      return true
     }
-    return false;
+  }
+  return false;
 };
 ```
 
 ### 142、[环形链表2](https://leetcode.cn/problems/linked-list-cycle-ii/submissions/)
 
 ```typescript
-var detectCycle = function(head) {
+var detectCycle = function (head) {
   if (head == null) return null;
   let p = head, k = head;
   let hasCycle = false;
@@ -166,28 +166,27 @@ var detectCycle = function(head) {
 ### 24、[两两交换的链表](https://leetcode.cn/problems/swap-nodes-in-pairs/submissions/)
 
 ```typescript
-var swapPairs = function(head) {
-    let dummy = new ListNode();
-    dummy.next = head;
-    let current = dummy;
+var swapPairs = function (head) {
+  let dummy = new ListNode();
+  dummy.next = head;
+  let current = dummy;
 
-    while (current.next && current.next.next) {
-        let n1 = current.next;
-        let n2 = current.next.next;
-        current.next = n2;
-        n1.next = n2.next;
-        n2.next = n1;
-        current = n1;
-    }
+  while (current.next && current.next.next) {
+    let n1 = current.next;
+    let n2 = current.next.next;
+    current.next = n2;
+    n1.next = n2.next;
+    n2.next = n1;
+    current = n1;
+  }
 
-    return dummy.next;
+  return dummy.next;
 };
 ```
 
 ### 83、删除排序链表中的重复元素
 
 [删除排序链表中的重复元素](https://leetcode.cn/problems/remove-duplicates-from-sorted-list/submissions/)
-
 
 ![](https://lantiany-1254329693.cos.ap-chongqing.myqcloud.com/blog/2.gif)
 
@@ -200,7 +199,7 @@ var deleteDuplicates = function (head) {
     // if (nums[i] !== nums[j])
     if (slow.val !== fast.val) {
       // nums[++j] = nums[i]
-      slow.next = fast
+      slow.next = fast;
       slow = slow.next;
     }
     // i++
@@ -208,6 +207,27 @@ var deleteDuplicates = function (head) {
   }
   // 断开与后面元素的连接
   slow.next = null;
+  return head;
+};
+```
+
+### 328、[奇偶链表](https://leetcode.cn/problems/odd-even-linked-list/)
+
+```typescript
+var oddEvenList = function (head) {
+  if (head == null || head.next == null) return head;
+
+  let odd = head, even = head.next, evenHead = head.next;
+
+  while (even != null && even.next != null) {
+    odd.next = odd.next.next;
+    odd = odd.next;
+    even.next = even.next.next;
+    even = even.next;
+  }
+
+  odd.next = evenHead;
+
   return head;
 };
 ```
