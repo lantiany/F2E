@@ -94,3 +94,71 @@ var mergeTwoLists = function (list1, list2) {
   }
 };
 ```
+
+
+### 876、[链表的中间节点](https://leetcode.cn/problems/middle-of-the-linked-list/submissions/)
+
+```typescript
+var middleNode = function(head) {
+    if (head == null) return null;
+    let p = head, k = head;
+
+    while (k && k.next){
+        k = k.next.next;
+        p = p.next;
+    }
+
+    return p;
+};
+```
+
+### 141、[环形链表](https://leetcode.cn/problems/linked-list-cycle/)
+
+```typescript
+var hasCycle = function(head) {
+    if (head == null) return false;
+
+    let p = head, k = head;
+
+    while (k.next !== null && k.next.next !== null){
+        p = p.next;
+        k = k.next.next;
+        if (p === k) {
+            return true
+        }
+    }
+    return false;
+};
+```
+
+### 142、[环形链表2](https://leetcode.cn/problems/linked-list-cycle-ii/submissions/)
+
+```typescript
+var detectCycle = function(head) {
+  if (head == null) return null;
+  let p = head, k = head;
+  let hasCycle = false;
+
+  while (k.next && k.next.next) {
+    p = p.next;
+    k = k.next.next;
+    if (p === k) {
+      hasCycle = true;
+      break;
+    }
+  }
+
+  if (!hasCycle) {
+    return null;
+  }
+
+  k = head;
+
+  while (p !== k) {
+    p = p.next;
+    k = k.next;
+  }
+
+  return p;
+};
+```
