@@ -464,3 +464,27 @@ var sortColors = function (nums) {
   }
 }
 ```
+
+### 135、[分发糖果](https://leetcode.cn/problems/candy/solution/)
+
+```typescript
+var candy = function (ratings) {
+  const candys = new Array(ratings.length).fill(1);
+
+  // 从左往右扫一遍，右边比左边大的孩子多一个糖果
+  for (let i = 0; i < ratings.length - 1; i++) {
+    if (ratings[i + 1] > ratings[i]) {
+      candys[i + 1] = candys[i] + 1;
+    }
+  }
+
+  // 从右往左扫一遍，右边比左边大的孩子多一个糖果，同时取最大值
+  for (let j = ratings.length - 1; j > 0; j--) {
+    if (ratings[j - 1] > ratings[j]) {
+      candys[j - 1] = Math.max(candys[j - 1], candys[j] + 1);
+    }
+  }
+
+  return candys.reduce((a, b) => b + a, 0);
+};
+```

@@ -43,3 +43,33 @@ var restoreIpAddresses = function (s) {
   return result;
 };
 ```
+
+### 22、[括号生成](https://leetcode.cn/problems/generate-parentheses/submissions/)
+
+```typescript
+var generateParenthesis = function (n) {
+  const result = [];
+
+  dfs('', 0, 0);
+
+  return result;
+
+  function dfs(path, leftCount, rightCount) {
+    if (path.length === n * 2) {
+      result.push(path);
+      return;
+    }
+    
+    // 左括号个数小于 n 的时候就继续
+    if (leftCount < n) {
+      dfs(path + '(', leftCount + 1, rightCount);
+    }
+
+    // 必须先有左括号，才能加 右括号
+    // 所以右括号个数小于左括号的时候就可以加 右括号
+    if (rightCount < leftCount) {
+      dfs(path + ')', leftCount, rightCount + 1);
+    }
+  }
+};
+```
