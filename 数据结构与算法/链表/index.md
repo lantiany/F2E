@@ -162,3 +162,52 @@ var detectCycle = function(head) {
   return p;
 };
 ```
+
+### 24、[两两交换的链表](https://leetcode.cn/problems/swap-nodes-in-pairs/submissions/)
+
+```typescript
+var swapPairs = function(head) {
+    let dummy = new ListNode();
+    dummy.next = head;
+    let current = dummy;
+
+    while (current.next && current.next.next) {
+        let n1 = current.next;
+        let n2 = current.next.next;
+        current.next = n2;
+        n1.next = n2.next;
+        n2.next = n1;
+        current = n1;
+    }
+
+    return dummy.next;
+};
+```
+
+### 83、删除排序链表中的重复元素
+
+[删除排序链表中的重复元素](https://leetcode.cn/problems/remove-duplicates-from-sorted-list/submissions/)
+
+
+![](https://lantiany-1254329693.cos.ap-chongqing.myqcloud.com/blog/2.gif)
+
+```typescript
+var deleteDuplicates = function (head) {
+  if (head == null) return null;
+  let slow = head, fast = head.next;
+  // for(let i = 1; i < nums.length; )
+  while (fast != null) {
+    // if (nums[i] !== nums[j])
+    if (slow.val !== fast.val) {
+      // nums[++j] = nums[i]
+      slow.next = fast
+      slow = slow.next;
+    }
+    // i++
+    fast = fast.next;
+  }
+  // 断开与后面元素的连接
+  slow.next = null;
+  return head;
+};
+```
