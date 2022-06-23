@@ -152,3 +152,10 @@ ws.send('pageb send a message');
 
 ```
 
+### defer 和 async 
+![](https://lantiany-1254329693.cos.ap-chongqing.myqcloud.com/blog/20220623154901.png)
+
+
+- defer 和 async 都是 相较于HTML解析 异步加载的
+- defer 按照脚本加载顺序在 HTML 解析完成之后 执行
+- async 异步加载完成之后就执行，不考虑顺序，所以对于有依赖的脚本要注意不能使用 async 
