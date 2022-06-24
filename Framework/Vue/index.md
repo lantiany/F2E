@@ -35,3 +35,37 @@ sameVNode对比两个节点是否相等，会判断节点的 key、tag、isComme
 #### 使用 index 作为 key
 
 使用了 index 作为 key 之后，如果列表的发生了插入或者删除，会导致 新旧节点的 key 的映射部分甚至完全错乱，无法在旧的节点中找到不变的进行复用，增加节点的更新成本。
+
+
+### nextTick
+
+调用 nextTick 传入的回调函数会被放入 nextTick 自己内部的 callbacks 数组。
+这个callbacks数组是根据浏览器的api支持情况通过事件循环异步执行 flushCallbacks，此时DOM已经更新完毕，可以拿到更新后的DOM.
+```typescript
+export function  nextTick(cb, ctx){
+  callbacks.push(() => cb.call(ctx))
+  if (!pending) flushCallbacks()
+}
+
+function flushCallbacks () {
+  callbacks.forEach(cb => cb())
+}
+
+if (support(Promise)){
+  timerFunc = () => {
+    Promise.then(flushCallbacks)
+  }
+} else if (support(MutationObserver)) {
+  new MutationObserver(flushCallbacks)
+} else if (setImmediate){
+  setImmediate(flushCallbacks)
+} else  {
+  setTimeout(flushCallbacks)
+}
+```
+
+- 优先使用 Promise 添加微任务
+- 降级为 MutationObserver
+- 再降级为 setImmediate
+- 最后降级为 setTimeout
+
