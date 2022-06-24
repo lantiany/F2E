@@ -69,3 +69,19 @@ if (support(Promise)){
 - 再降级为 setImmediate
 - 最后降级为 setTimeout
 
+### Vue.use 做了什么
+
+- 判断传入的插件是否已经被安装，如果已经安装，直接返回
+- 读取插件和传入的参数
+- 判断 plugin.install 或者 plugin 是否是函数
+- 调用这个函数，传入参数，记录 plugin 已经安装
+- plugin 会被挂载到全局，通过 this.xxx 可以访问的 如 this.$store, this.$router
+
+### Vue 依赖收集的过程
+![](https://lantiany-1254329693.cos.ap-chongqing.myqcloud.com/blog/20220624115319.png)
+在Vue初始化的过程中，首先会执行 initData，在这个时候劫持 对象属性的 getter 和 setter。
+
+然后会调用 生命周期函数，在 beforeMount 这个钩子中，会实例化一个渲染 watcher， 
+watcher 调用 get 方法在vm上去访问相应的值，就触发了这个值的getter，Dep 就在这个时候完成依赖收集。
+
+当数据发生改变的时候，在 setter 中会调用 Dep 的 notify 方法，告知 watcher 数据更新了，然后 watcher 执行自己的 update 方法，将变更的数据反映到真实的DOM上
