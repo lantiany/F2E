@@ -85,3 +85,15 @@ if (support(Promise)){
 watcher 调用 get 方法在vm上去访问相应的值，就触发了这个值的getter，Dep 就在这个时候完成依赖收集。
 
 当数据发生改变的时候，在 setter 中会调用 Dep 的 notify 方法，告知 watcher 数据更新了，然后 watcher 执行自己的 update 方法，将变更的数据反映到真实的DOM上
+
+
+### Vue2 和 Vue3 的区别
+
+#### 响应式实现不一样
+
+Vue2 采用 Object.defineProperty, 初始化时遍历对象，劫持 getter 和 setter。数组只能通过劫持数组操作方法进行处理。初始化时需要遍历对象的每一个key，创建大量的 Dep 和 Watcher。
+
+Vue3 采用 Proxy，使用 ES6 原生 API 对整个对象进行代理，对对象、数组的支持更好。proxy 是一种懒处理机制，只有当使用的某个key 的时候，才会收集依赖，所以初始化性能更好。
+
+Vue2 中改变对象或数组的属性需要使用 $set, Vue3 中 proxy 会自动
+
