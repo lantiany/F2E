@@ -46,3 +46,8 @@ rules = [
 正常的 loader 的执行顺序是从右向左的，但是 thread-loader 和 cache-loader 会有一个 pitch 方法，
 这个方法会在 loader 函数执行前执行，如果存在多个 loader 串行的情况，这些 loader 的 pitch 函数会从左到右依次执行
 
+
+
+### 热更新
+
+![](https://lantiany-1254329693.cos.ap-chongqing.myqcloud.com/blog/20220630110340.png)
