@@ -19,6 +19,6 @@
   "homepage": "https://github.com/lantiany/F2E#readme",
   "dependencies": {
     "folktale": "^2.3.2",
-    "lodash": "^4.17.21"
+    "lodash": "^4.18.1"
   }
 }
